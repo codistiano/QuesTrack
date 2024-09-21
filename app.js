@@ -12,18 +12,18 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/about', (req, res) => {
-  res.render('about');
-});
+app.get('/newNote', (req, res) => {
+    res.render('new')
+})
 
-app.get('/contact', (req, res) => {
-  res.render('contact');
-});
+app.get('/day/:number', (req, res) => {
+    res.render('note')
+})
 
 const port = 3000;
 
 app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+  console.log(`Server started on port ${port}, http://localhost:${port}`);
 });
 
 
