@@ -2,12 +2,13 @@
   "name": "100daystracker",
   "version": "1.0.0",
   "description": "100 Days Challenge Journaling website",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "run"
   },
   "author": "Abedela",
   "license": "ISC",
+  "type":"module",
   "dependencies": {
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
