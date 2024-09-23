@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/CSS/home.css" />
     <title>100 Days Tracker</title>
+    <script src="/JS/dayCounter.js"></script>
   </head>
   <body>
     <div class="header">
       <h3 class="s-heading white-text">Welcome back,</h3>
-      <h1 class="b-heading white-text">Day 5</h1>
+      <h1 class="b-heading white-text">Day <span id="day-display"></span></h1>
       <a href="/newNote" class="btn white-text">Create Note</a>
     </div>
     <br class="line" />
     <main class="container">
-      <% for( let i = 1; i <= 10; i++ ) { %>
+      <% for( let i = 1; i <= diffInDays; i++ ) { %>
       <a href="/note/<%= i %>" class="btn text-light" <%="i">
         5 ? 'disabled' : '' %>>Day <%= i %>: That dasdfasd 🤖
       </a>
       <% } %>
     </main>
-    <script src="/JS/index.js"></script>
   </body>
 </html>
