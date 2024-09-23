@@ -43,7 +43,6 @@ body {
 
 a {
   text-decoration: none;
-  padding: 10px;
 }
 
 .container {
@@ -62,6 +61,8 @@ a {
   background-color: #333333;
   color: white;
   border-radius: 10px;
+  line-height: 25px;
+  padding: 10px;
 }
 
 .btn:hover {
