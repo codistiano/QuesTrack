@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User</title>
+  </head>
+  <body>
+    <div class="header">
+      <h3 class="s-heading white-text"><%= user.username %></h3>
+      <h1 class="b-heading white-text">Day <span id="day-display"></span></h1>
+      <a href="/newNote" class="btn white-text">Create Note</a>
+    </div>
+    <br class="line" />
+    <main class="container">
+      <% for( let i = 1; i <= 10; i++ ) { %>
+      <a href="/note/<%= i %>" class="btn text-light" <%="i">
+        5 ? 'disabled' : '' %>>Day <%= i %>: That dasdfasd 🤖
+      </a>
+      <% } %>
+    </main>
+  </body>
+</html>
