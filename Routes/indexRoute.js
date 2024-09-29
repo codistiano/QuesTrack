@@ -4,5 +4,5 @@ import Note from "../Models/note.js"
 const router = express.Router()
 
 export default router.get("/", asyncHandler ( async (req, res, next) => {
-    res.render("index")
+    res.render("index", {title: "💪🏼 QuesTrack"})
 }))
