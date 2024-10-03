@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') -%>
+<div class="container w-screen h-full bg-gradient-to-br from-indigo-800/50 via-transparent to-violet-600/10 text-white">
+    <!-- Left side for the day -->
+    <div class="left">
+      <h3 id="day-header" class="p-10">
+        Day <span id="day-display"></span>: <span id="dayNameText"></span>
+      </h3>
+      <p id="" class="p-10"></p>
+    </div>
+  
+    <!-- Right side for the forms -->
+    <div class="right">
+      <form id="day-form" action="/user/<%= username %>/challenges/<%= challengeId %>/notes/<%= noteId %>" method="POST">
+        <label for="day-name" >Name your day (highlight):</label>
+        <input type="text" id="day-name" name="title" class="text-black" value="<%= note.title %>"/>
+        <label for="note">Note:</label>
+        <textarea id="note" name="note" class="text-black"><%= note.note %></textarea>
+        <button class="btn">Save</button>
+      </form>
+    </div>
+  </div>
+  

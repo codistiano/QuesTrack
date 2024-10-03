@@ -27,7 +27,8 @@ const noteSchema = new Schema({
     },
     challenge: {
         type: Schema.Types.ObjectId,
-        ref: "Challenge"
+        ref: "Challenge",
+        required: true,
     }
 })
 

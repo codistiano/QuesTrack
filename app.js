@@ -1,31 +1,90 @@
-import express from 'express';
+import express from "express";
+import mongoose from "mongoose";
+import methodOverride from "method-override";
+import ejsmate from "ejs-mate";
+import bodyParser from "body-parser";
+import MongoStore from "connect-mongo";
+import session from "express-session";
+import path from "path";
+import { fileURLToPath } from "url";
+import flash from "connect-flash";
+import asyncHandler from "express-async-handler"
+import "dotenv/config";
+
+// Route files
+import userRoutes from "./Routes/userRoutes.js";
+import challengeRoutes from "./Routes/challengeRoutes.js";
+import noteRoutes from "./Routes/noteRoutes.js";
+import indexRoute from "./Routes/indexRoute.js";
+
+// DB connection
+const dbUrl = process.env.DB_URL;
+mongoose.connect(dbUrl);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "Database Connection Error"));
+db.once("open", () => {
+  console.log("Database Connected!");
+});
+
 const app = express();
 
 // Set the view engine to ejs
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
+app.engine("ejs", ejsmate);
 
 // Set the public folder as the static folder
-app.use(express.static('public'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "/Public")));
+
+// Made the use of the Method-override package to handle different request types
+app.use(methodOverride("_method"));
+
+// Parse incoming request body in a middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(flash());
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_URL,
+      collectionName: "sessions",
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 2,
+    },
+  })
+);
+
+app.use((req, res, next) => {
+  res.locals.user = req.flash("username");
+  // res.locals.challenge = req.flash("challengeId");
+  res.locals.title = "QuesTrack"
+  next();
+})
 
 // Define the routes
-app.get('/', (req, res) => {
-  res.render('index');
+
+app.use("/", indexRoute);
+
+app.use("/user", userRoutes);
+
+app.use("/user/:username/challenges", challengeRoutes);
+
+app.use("/user/:username/challenges/:challengeId/notes", noteRoutes);
+
+app.use(function (err, req, res, next) {
+  console.error(`Page Error: ${err}`);
 });
-
-app.get('/newNote', (req, res) => {
-    res.render('new')
-})
-
-app.get('/day/:number', (req, res) => {
-    res.render('note')
-})
 
 const port = 3000;
 
 app.listen(port, () => {
-  console.log(`Server started on port ${port}, http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
-
-
-
-
