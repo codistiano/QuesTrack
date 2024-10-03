@@ -1,0 +1,9 @@
+<% layout("layouts/boilerplate")%>
+<div class="container text-light">
+    <% for (let i = 0; i < journal.length; i++) { %>
+        <a class="card" href="/user/<%= user.username %>/challenges/<%= challenge.id %>/notes/<%= journal[i].id %>">
+            <div class="day">Day <%= i %></div>
+        </a>
+        <br />
+        <% } %>
+</div>

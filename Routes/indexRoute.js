@@ -1,8 +1,23 @@
-import express from "express"
-import asyncHandler from "express-async-handler"
-import Note from "../Models/note.js"
-const router = express.Router()
+import express from "express";
+import asyncHandler from "express-async-handler";
+import User from "../Models/user.js";
+const router = express.Router();
 
-export default router.get("/", asyncHandler ( async (req, res, next) => {
-    res.render("index", {title: "💪🏼 QuesTrack"})
-}))
+router.get(
+  "/",
+  asyncHandler(async (req, res, next) => {
+    res.render("index", { title: "QuesTrack" });
+  })
+);
+
+router.get("/me", asyncHandler ( async (req, res, next) => {
+    const userId = req.session.userId
+    if (!userId) {
+        return res.redirect("/user/login")
+    } else {
+        const user = await User.findById(userId)
+        return res.redirect(`/user/${user.username}`)
+    }
+  }))
+
+export default router;

@@ -1,5 +1,5 @@
 import User from "../Models/user.js";
-import bcrypt from "bcryptjs"
+import Challenge from "../Models/challenge.js"
 import asyncHandler from "express-async-handler";
 
 export const signUpPage = asyncHandler(async (req, res, next) => {
@@ -13,7 +13,9 @@ export const signUp = asyncHandler(async (req, res, next) => {
 
   if (existingUser) {
     res.status(400);
-    throw new Error("User already exists");
+    return res.render("UserPages/login", {
+      message: "This username is taken!",
+    });
   }
 
   const newUser = new User({ username, password });
@@ -34,14 +36,14 @@ export const login = asyncHandler(async (req, res, next) => {
 
   if (!user) {
     res.status(401); // unauthorized
-    throw new Error("Invalid credentials");
+    return res.render("error", { message: "Incorrect Username or Password" });
   }
 
   const isMatch = await user.comparePassword(password);
 
   if (!isMatch) {
     res.status(401); // unauthorized
-    throw new Error("Invalid credentials");
+    return res.render("error", { message: "Incorrect Username or Password" });
   }
 
   req.session.userId = user._id;
@@ -50,22 +52,32 @@ export const login = asyncHandler(async (req, res, next) => {
 
 export const logout = asyncHandler(async (req, res, next) => {
   req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Failed to log out" });
-    }
-
     res.clearCookie();
-    res.status(200).render(`index`);
+    res.status(200).redirect("/");
   });
 });
 
 export const profilePage = asyncHandler(async (req, res, next) => {
-  const username = req.params.username
+  const username = req.params.username;
   const user = await User.findOne({ username });
+  const currentUser = await User.findOne({_id: req.session.userId})
 
   if (!user) {
-    res.render("error")
+    return res.render("error", { message: "Username Not Found!" });
   }
 
-  res.render("UserPages/profile", { user });
+  await user.populate("challenges");
+  const activeChallenge = await Challenge.findOne({
+    owner: req.session.userId,
+    status: "active"
+  });
+
+  let owner = username === currentUser.username ? true : false
+
+  res.render("UserPages/profile", {
+    user,
+    challenges: user.challenges,
+    activeChallenge,
+    owner,
+  });
 });

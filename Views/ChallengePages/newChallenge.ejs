@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>💪🏼New Challenge</title>
-</head>
-<body>
+  </head>
+  <body>
+    <% if (activeChallenge) { %>
+    <p>
+      You are currently working on the challenge <b>"<%= activeChallenge.name %>"</b> which will be
+      cancelled when you create a new one.
+    </p>
+
+    <% } %>
     <form action="/user/<%= user.username %>/challenges/new" method="POST">
-        <label for="name">Challenge name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required>
-        <label for="challengeType">Challenge Type:</label>
-        <select name="challengeType" id="challengeType" required>
-            <option value="">Choose the period of the Challenge</option>
-            <option value="30">30 Days Challenge</option>
-            <option value="60">60 Days Challenge</option>
-            <option value="100">100 Days challenge</option>
-        </select>
-        <button type="submit">Start Challenge</button>
+      <label for="name">Challenge name:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description" required />
+      <label for="challengeType">Challenge Type:</label>
+      <select name="challengeType" id="challengeType" required>
+        <option value="">Choose the period of the Challenge</option>
+        <option value="30">30 Days Challenge</option>
+        <option value="60">60 Days Challenge</option>
+        <option value="100">100 Days challenge</option>
+      </select>
+      <button type="submit">Start Challenge</button>
     </form>
-</body>
+  </body>
 </html>

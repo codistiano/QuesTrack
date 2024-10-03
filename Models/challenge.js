@@ -4,12 +4,12 @@ import { Schema } from "mongoose";
 const challengeSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: "User",
+    required: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
@@ -20,14 +20,16 @@ const challengeSchema = new Schema({
     enum: [30, 60, 100],
     required: true,
   },
-  journal: {
-    type: Schema.Types.ObjectId,
-    ref: "Note",
-  },
+  journal: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Note",
+    },
+  ],
   status: {
     type: String,
     required: true,
-    enum: ["active", "completed", "cancelled"],
+    enum: ["active", "completed", "Cancelled", "Given Up"],
     default: "active",
   },
   dateStarted: {
@@ -41,4 +43,4 @@ const challengeSchema = new Schema({
   // }
 });
 
-export default mongoose.model("Challenge", challengeSchema)
+export default mongoose.model("Challenge", challengeSchema);
