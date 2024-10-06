@@ -1,9 +1,41 @@
 <% layout("layouts/boilerplate")%>
-<div class="container text-light">
-    <% for (let i = 0; i < journal.length; i++) { %>
-        <a class="card" href="/user/<%= user.username %>/challenges/<%= challenge.id %>/notes/<%= journal[i].id %>">
-            <div class="day">Day <%= i %></div>
+<style>
+    .glassmorph {
+      background: rgba( 255, 255, 255, 0.25 );
+      box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+      backdrop-filter: blur( 4px );
+      -webkit-backdrop-filter: blur( 4px );
+      border-radius: 10px;
+      border: 1px solid rgba( 255, 255, 255, 0.18 );
+      transition: background 0.3s ease;
+    }
+    .glassmorph:hover {
+      background: rgba( 255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+  <!-- Main Content Wrapper -->
+  <div class="text-center flex items-center flex-col min-h-screen bg-gradient-to-br from-blue-500/40 via-transparent to-indigo-600/40">
+    <!-- Header Section -->
+    <h1 class="text-5xl font-bold text-white">Day <%= challengeDay %></h1>
+    <p class="text-lg text-white mt-2">of <%= challenge.name %></p>
+    
+    <!-- Separation Line -->
+    <hr class="w-1/2 mx-auto border-t-2 border-gray-300 my-6">
+
+    <!-- Cards Section -->
+    <div class="grid grid-cols-10 sm:grid-cols-4 md:grid-cols-10 gap-6 px-8">
+      <!--  -->
+      <!-- Loop through challenge days -->
+      <% for (let i = 1; i <= challenge.challengeType; i++) { %>
+        <button type="button" <%= i > challengeDay && challenge.journal[i-1] === undefined ? 'disabled' : '' %> class="glassmorph p-3 text-white text-center disabled:opacity-50 disabled:pointer-events-none">
+        <a class=""  href="<%= challenge.journal[i-1] !== undefined ? `/user/${username}/challenges/${challenge._id}/notes/${challenge.journal[i-1]._id}` : `/user/${username}/challenges/${challenge._id}/notes/new` %>">
+          <h2 class="text-2xl font-semibold">Day <%= i %></h2>
         </a>
-        <br />
-        <% } %>
-</div>
+        <span><% if (challenge.journal[i-1] !== undefined && i < challengeDay) { %>
+          <img src="/imgs/tick.png" width="35px" alt="tick.png" />
+        <% } %></span>
+      </button>
+      <% } %>
+    </div>
+  </div>

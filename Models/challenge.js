@@ -35,12 +35,11 @@ const challengeSchema = new Schema({
   dateStarted: {
     type: Date,
     required: true,
-    default: Date.now(),
+    default: new Date().toISOString().split('T')[0],
   },
-  // endDate: {
-  // type: Date,
-  // required: true;
-  // }
+  endDate: {
+  type: Date,
+  }
 });
 
 export default mongoose.model("Challenge", challengeSchema);

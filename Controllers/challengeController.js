@@ -3,15 +3,29 @@ import User from "../Models/user.js";
 import asyncHandler from "express-async-handler";
 import "dotenv/config";
 
+function getChallengeDay(startDate) {
+  const currentDate = new Date(new Date().toISOString().split('T')[0]); 
+  const start = new Date(startDate); 
+
+  const dayDifference = Math.floor((currentDate - start) / (1000 * 60 * 60 * 24));
+
+  return dayDifference + 1;
+}
+
 export const viewChallenge = asyncHandler(async (req, res, next) => {
   const { username, challengeId } = req.params;
   const challenge = await Challenge.findOne({ _id: challengeId });
   const user = await User.find({ username });
-  await challenge.populate("journal");
+  await challenge.populate("journal")
+
+  const challengeDay = getChallengeDay(challenge.dateStarted)
+
+  // console.log(challenge.journal[0])
+
   res.render("ChallengePages/challengeView", {
-    journal: challenge.journal,
     challenge,
-    user,
+    username,
+    challengeDay
   });
 });
 

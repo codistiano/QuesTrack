@@ -29,6 +29,10 @@ const noteSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Challenge",
         required: true,
+    },
+    day: {
+        type: Number,
+        required: true,
     }
 })
 

@@ -4,7 +4,8 @@
   "description": "100 Days Challenge Journaling website",
   "main": "app.js",
   "scripts": {
-    "test": "run"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Abedela",
   "license": "ISC",
@@ -13,7 +14,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "connect-flash": "^0.1.1",
-    "connect-mongo": "^5.1.0",
+    "connect-mongo": "^4.6.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
