@@ -6,6 +6,15 @@ import Note from "../Models/note.js";
 
 const router = express.Router({ mergeparams: true });
 
+function getChallengeDay(startDate) {
+  const currentDate = new Date(new Date().toISOString().split('T')[0]); 
+  const start = new Date(startDate); 
+
+  const dayDifference = Math.floor((currentDate - start) / (1000 * 60 * 60 * 24));
+
+  return dayDifference + 1;
+}
+
 export const viewNote = asyncHandler(async (req, res, next) => {
   const { noteId } = req.params;
   const note = await Note.findById(noteId);
@@ -14,13 +23,16 @@ export const viewNote = asyncHandler(async (req, res, next) => {
 
 export const newNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId } = req.params;
+  const challenge = await Challenge.findById(challengeId);
+  const currentDay = getChallengeDay(challenge.dateStarted)
   res.render(
-    "NotePages/noteEditPage",
+    "NotePages/newNote",
     {
       title: "New Note",
       username,
       challengeId,
-    } /** the day after calculation**/
+      currentDay,
+    } 
   );
 });
 
@@ -28,19 +40,21 @@ export const createNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId } = req.params;
   const { title, note } = req.body;
   const user = await User.findOne({ username: username });
+  const theChallenge = await Challenge.findById(challengeId);
 
   const newNote = new Note({
     author: user._id,
     challenge: challengeId,
     title: title,
     note: note,
+    day: getChallengeDay(theChallenge.dateStarted),
   });
 
   await newNote.save();
 
   await Challenge.findByIdAndUpdate(
     { _id: challengeId },
-    { $push: { notes: newNote._id } }
+    { $push: { journal: newNote._id } }
   );
 
   res.redirect(
