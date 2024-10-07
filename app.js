@@ -29,14 +29,15 @@ db.once("open", () => {
 
 const app = express();
 
-// Set the view engine to ejs
-app.set("view engine", "ejs");
-app.engine("ejs", ejsmate);
-
 // Set the public folder as the static folder
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "/Public")));
+
+// Set the view engine to ejs
+app.set("views", path.join(__dirname, 'Views'))
+app.set("view engine", "ejs");
+app.engine("ejs", ejsmate);
 
 // Made the use of the Method-override package to handle different request types
 app.use(methodOverride("_method"));
