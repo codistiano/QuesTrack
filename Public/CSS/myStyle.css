@@ -1,0 +1,61 @@
+  /* Main container setup */
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Left section for day display */
+  .left {
+    flex: 1;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: transparent;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* Right section for the form */
+  .right {
+    flex: 0.4;
+    background-color: rgba(255, 255, 255, 0.1); /* A smooth background that doesn’t strain the eyes */
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    padding: 20px;
+    padding-top: 40px;
+    border-left: 1px solid rgba(255, 255, 255, 0.2); /* Optional divider */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* Styling for inputs and textarea */
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+  }
+
+  input {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #000;
+  }
+
+  textarea {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #000;
+    height: 150px;
+    resize: none;
+  }
+
+  /* Button styling */
+
+  /* Cancel button style */
+  .cancel-btn {
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+  }
