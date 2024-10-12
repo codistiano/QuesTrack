@@ -10,14 +10,26 @@ router.get(
   })
 );
 
-router.get("/me", asyncHandler ( async (req, res, next) => {
-    const userId = req.session.userId
+router.get(
+  "/me",
+  asyncHandler(async (req, res, next) => {
+    const userId = req.session.userId;
     if (!userId) {
-        return res.redirect("/user/login")
+      return res.redirect("/user/login");
     } else {
-        const user = await User.findById(userId)
-        return res.redirect(`/user/${user.username}`)
+      const user = await User.findById(userId);
+      return res.redirect(`/user/${user.username}`);
     }
-  }))
+  })
+);
+
+router.get("/article", asyncHandler(async (req, res, next) => {
+  res.render("article")
+}));
+
+router.get('/explore', (req, res) => {
+  res.render('explore', { title: 'Explore' });
+});
+
 
 export default router;

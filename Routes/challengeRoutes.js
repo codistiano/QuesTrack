@@ -20,6 +20,6 @@ router.get("/:challengeId", viewChallenge);
 
 router.post("/new", loggedIn, authorize, createChallenge);
 
-router.post("/:challengeId/giveup", loggedIn, authorize, giveUpChallenge);
+router.get("/:challengeId/giveup", loggedIn, authorize, giveUpChallenge);
 
 export default router;

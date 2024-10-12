@@ -13,14 +13,14 @@ const router = express.Router({ mergeParams: true });
 
 router.get("/", viewChallenge);
 
-router.get("/new", loggedIn, authorize, newNote);
+router.get("/:day", viewNote);
 
-router.get("/:noteId", viewNote);
+router.get("/:day/new", loggedIn, authorize, newNote);
 
-router.get("/:noteId/edit", loggedIn, authorize, editNote);
+router.get("/:day/edit", loggedIn, authorize, editNote);
 
-router.post("/", loggedIn, authorize, createNote);
+router.post("/:day", loggedIn, authorize, createNote);
 
-router.post("/:noteId", loggedIn, authorize, updateNote)
+router.post("/:day/edit", loggedIn, authorize, updateNote)
 
 export default router;
