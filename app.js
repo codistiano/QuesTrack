@@ -8,8 +8,9 @@ import session from "express-session";
 import path from "path";
 import { fileURLToPath } from "url";
 import flash from "connect-flash";
-import asyncHandler from "express-async-handler"
+import asyncHandler from "express-async-handler";
 import "dotenv/config";
+
 
 // Route files
 import userRoutes from "./Routes/userRoutes.js";
@@ -35,7 +36,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "/Public")));
 
 // Set the view engine to ejs
-app.set("views", path.join(__dirname, 'Views'))
+app.set("Views", path.join(__dirname, "Views"));
 app.set("view engine", "ejs");
 app.engine("ejs", ejsmate);
 
@@ -66,9 +67,11 @@ app.use(
 app.use((req, res, next) => {
   res.locals.user = req.flash("username");
   // res.locals.challenge = req.flash("challengeId");
-  res.locals.title = "QuesTrack"
+  res.locals.currentUser = req.session.userId;
+  res.locals.footer = true;
+  res.locals.title = "QuesTrack";
   next();
-})
+});
 
 // Define the routes
 
