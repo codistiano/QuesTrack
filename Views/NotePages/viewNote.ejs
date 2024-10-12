@@ -1,9 +1,17 @@
 <%- layout("layouts/boilerplate") %>
-<body>
-  <div class="container">
-    <h3 id="day-header" class="p-10">
-      Day <span id="day-display"></span>: <span id="dayNameText"></span>
-    </h3>
-    <p id="text-viewed" class="p-10">This is the view note page</p>
+  <div class="container min-h-screen p-10 flex flex-col">
+    <div class="flex flex-col justify-evenly">
+      <h1 id="day-header" class="font-bold text-4xl text-balance text-white">
+        Day <span class="underline decoration-2 underline-offset-8 decoration-cyan-400"><%= note.day %></span> : <%= note.title %>
+      </h1>
+      <p class="text-sm pt-4 text-gray-400">
+        Written on: <%= note.creationDate.toLocaleDateString() %>
+      </p>
+    </div>
+    <hr class="w-full border-t-2 border-gray-300 my-6">
+    <p id="text-viewed" class="text-lg pt-4"><%= note.note %></p>
+    <div class="inline mt-10">
+      <a href="/user/<%= username %>/challenges/<%= note.challenge %>/notes/<%= note.day %>/edit" class=" text-cyan-600 hover:underline pr-10">Edit Note</a>
+      <a href="/user/<%= username %>/challenges/<%= note.challenge %>" class="text-cyan-600 hover:underline border-l-2 border-l-white pl-10">Back to Challenge</a>
+    </div>
   </div>
-</body>

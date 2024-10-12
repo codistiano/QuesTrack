@@ -1,21 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth ">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/CSS/output.css" />
+    <link rel="stylesheet" href="/CSS/myStyle.css">
     <title><%= title %></title>
     <style>
-      .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
+      .glassmorph {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(64, 64, 64, 0.18);
+        transition: background 0.3s ease;
+      }
+      .gm-r-10 {
+        border-radius: 10px;
+      }
+      .hover\:glassmorph:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
     </style>
   </head>
-  <body class="bg-slate-950 text-white">
-      <%- body %>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
-    <script src="./node_modules/preline/dist/preline.js"></script>
+  <body class="h-full bg-slate-950 text-white min-h-screen flex flex-col overflow-x-hidden">
+    <div
+      class="bg-gradient-to-br from-blue-500/30 via-transparent to-purple-600/40 bg-fixed min-h-screen"
+        >
+      <%- include("../_Partials/navbar") %>
+        <%- body %>
+      </div>
+      <% if ( footer ) { %>
+        <%- include('../_Partials/footer') %>
+      <% } %>
+      <script src="/JS/preline.js"></script>
+      <script src="/JS/index.js"></script>
+      
   </body>
 </html>

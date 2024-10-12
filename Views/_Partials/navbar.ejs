@@ -3,7 +3,7 @@
   class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm"
 >
   <nav
-    class="glass mt-4 relative max-w-2xl w-full border border-neutral-700 rounded-[2rem] mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto backdrop-blur-sm backdrop-opacity-25"
+    class="mt-4 relative max-w-2xl w-full border border-neutral-700 rounded-[2rem] mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto glassmorph"
   >
     <div class="px-4 md:px-0 flex justify-between items-center">
       <!-- Logo -->
@@ -13,7 +13,7 @@
           href="/"
           aria-label="Questrack"
         >
-        <img class="max-w-32 mt-1.5 ml-2.5" src="../imgs/logo.png" alt="logo" srcset="">
+        <img class="max-w-32 mt-1.5 ml-2.5" src="/imgs/logo.png" alt="logo" srcset="">
         </a>
       </div>
       <!-- End Logo -->
@@ -75,25 +75,36 @@
       >
         <a
           class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none dark:border-neutral-200 dark:text-neutral-200"
-          href="#"
+          href="/"
           aria-current="page"
           >Home</a
         >
         <a
           class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
-          href="#"
+          href="/explore"
           >Explore</a
         >
         <a
           class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
-          href="#"
-          >About</a
+          href="/article"
+          >Article</a
+        >
+        <% if (!currentUser) { %>
+        <a
+          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
+          href="/user/login"
+          >Login</a
         >
         <a
           class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
-          href="#"
-          >Articles</a
-        >
+          href="/user/signup"
+          >Sign Up</a
+        > <% } else { %>
+          <a
+          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
+          href="/me"
+          >My Profile</a
+        > <% } %>
       </div>
     </div>
   </nav>

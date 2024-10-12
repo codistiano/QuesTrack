@@ -1,21 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/CSS/forms.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Login</h2>
-        <form action="/user/login" method="POST">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" >
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" >
-            <button>Login</button>
-        </form>
+<% layout('layouts/boilerplate') %>
+<div class="min-h-screen flex items-center justify-around " >
+    <!-- Login/Signup Form Container -->
+    <div class="glassmorph gm-r-10 p-8 rounded-2xl shadow-lg max-w-md  w-80 sm:w-96 md:w-full ">
+      <h1 class="text-3xl font-bold text-white text-center mb-6">Sign In</h1>
+      <% if (message) { %>
+        <p class="mt-2 text-center text-sm text-yellow-200 mb-2">
+          Incorrect Username or Password.
+        </p>
+        <% } %>
+    
+      <form action="/user/login" method="POST">
+        <div class="mb-4">
+          <input id="username" name="username" type="text" required class="appearance-none rounded-t-lg rounded-b-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Username">
+          </div>
+          
+          <div class="mb-6">
+            <input id="password" name="password" type="password" required class="appearance-none rounded-b-lg rounded-t-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+          </div>
+        
+        <button class="w-full bg-gradient-to-tr from-blue-700 to-purple-600 hover:from-blue-500 hover:to-purple-800 text-white font-bold py-3 my-5 rounded-lg transition duration-300">Sign In</button>
+      </form>
+      <p class="text-center text-slate-400 mt-3">Haven't created an account yet! <a href="/user/signup" class="underline decoration-cyan-500 text-slate-100 hover:underline hover:decoration-white">Sign Up!</a></p>
     </div>
-</body>
-</html>
+  </div>
+  

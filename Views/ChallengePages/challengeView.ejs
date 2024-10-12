@@ -1,41 +1,43 @@
 <% layout("layouts/boilerplate")%>
-<style>
-    .glassmorph {
-      background: rgba( 255, 255, 255, 0.25 );
-      box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-      backdrop-filter: blur( 4px );
-      -webkit-backdrop-filter: blur( 4px );
-      border-radius: 10px;
-      border: 1px solid rgba( 255, 255, 255, 0.18 );
-      transition: background 0.3s ease;
-    }
-    .glassmorph:hover {
-      background: rgba( 255, 255, 255, 0.5);
-    }
-  </style>
-</head>
   <!-- Main Content Wrapper -->
-  <div class="text-center flex items-center flex-col min-h-screen bg-gradient-to-br from-blue-500/40 via-transparent to-indigo-600/40">
+  <div class="text-center py-14 flex items-center flex-col min-h-screen">
     <!-- Header Section -->
-    <h1 class="text-5xl font-bold text-white">Day <%= challengeDay %></h1>
+    <h1 class="text-5xl font-bold text-white">Day <span class="underline decoration-2 underline-offset-8 decoration-cyan-400"> <%= challengeDay %></span></h1>
     <p class="text-lg text-white mt-2">of <%= challenge.name %></p>
+
+    <div class="flex flex-row justify-around w-auto text-base pt-3">
+      <h3 class="pr-4">Owner: <a href="/user/<%= username %>" class="font-bold"><%= username %></a></h3>
+      <h3 class="pr-4">Status: <span class="font-bold"><%= challenge.status %></span></h3>
+      <h3>Date Started: <%= challenge.dateStarted.toLocaleDateString() %></h3>
+    </div>
     
     <!-- Separation Line -->
     <hr class="w-1/2 mx-auto border-t-2 border-gray-300 my-6">
 
     <!-- Cards Section -->
-    <div class="grid grid-cols-10 sm:grid-cols-4 md:grid-cols-10 gap-6 px-8">
-      <!--  -->
-      <!-- Loop through challenge days -->
-      <% for (let i = 1; i <= challenge.challengeType; i++) { %>
-        <button type="button" <%= i > challengeDay && challenge.journal[i-1] === undefined ? 'disabled' : '' %> class="glassmorph p-3 text-white text-center disabled:opacity-50 disabled:pointer-events-none">
-        <a class=""  href="<%= challenge.journal[i-1] !== undefined ? `/user/${username}/challenges/${challenge._id}/notes/${challenge.journal[i-1]._id}` : `/user/${username}/challenges/${challenge._id}/notes/new` %>">
-          <h2 class="text-2xl font-semibold">Day <%= i %></h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-6 px-8">
+      
+      <% for (let i = 1; i <= challenge.challengeType; i++) { 
+        const noteForDay = challenge.journal.find(note => note.day === i)
+        %>
+
+        <button type="button" <%= i > challengeDay && !noteForDay ? 'disabled' : '' %> class="glassmorph text-white text-center w-32 min-h-10 flex flex-row justify-center items-center cursor-pointer gm-r-10 hover:glassmorph disabled:opacity-50 disabled:pointer-events-none">
+
+        <a class=""  href="<%= noteForDay ? `/user/${username}/challenges/${challenge._id}/notes/${i}` : `/user/${username}/challenges/${challenge._id}/notes/${i}/new` %>">
+          <h2 class="text-xl font-bold pr-3 py-2">Day <%= i %></h2>
         </a>
-        <span><% if (challenge.journal[i-1] !== undefined && i < challengeDay) { %>
-          <img src="/imgs/tick.png" width="35px" alt="tick.png" />
+
+        <span><% if (noteForDay && i <= challengeDay) { %>
+          <img src="/imgs/tick.png" width="20px" alt="tick.png" class=""/>
         <% } %></span>
+
       </button>
       <% } %>
+
     </div>
+    <% if (isOwner) { %>
+    <div class="mt-10">
+    <button class="text-lg shadow-lg bg-red-800 w-44 px-3 py-2 rounded-xl hover:shadow-red-600/40 duration-200"><a href="/user/<%= username %>/challenges/<%= challenge._id %>/giveup">Give Up</a></button>
   </div>
+  <% } %>
+</div>

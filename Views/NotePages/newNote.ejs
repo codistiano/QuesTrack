@@ -1,21 +1,26 @@
 <%- layout("layouts/boilerplate") %>
-<div class="container w-screen h-full bg-gradient-to-br from-indigo-800/50 via-transparent to-violet-600/10 text-white">
-  <!-- Left side for the day -->
+
+<div class="container">
+  <!-- Left side for displaying the day's information -->
   <div class="left">
-    <h3 id="day-header" class="p-10">
-      Day <span id="day-display"></span>: <span id="dayNameText"></span>
+    <h3 id="day-header" class="text-3xl font-bold mb-5">
+      Day <%= day %>: <span id="dayNameText"></span>
     </h3>
-    <p id="" class="p-10"></p>
+    <p id="text-viewed" class="text-lg">Write your Note here...</p>
   </div>
 
-  <!-- Right side for the forms -->
-  <div class="right">
-    <form id="day-form" action="/user/<%= username %>/challenges/<%= challengeId %>/notes" method="POST">
-      <label for="day-name" >Name your day (highlight):</label>
-      <input type="text" id="day-name" name="title" class="text-black" />
-      <label for="note">Note:</label>
-      <textarea id="note" name="note" class="text-black"></textarea>
-      <button class="btn">Save</button>
-    </form>
+  <!-- Right side for form inputs -->
+  <div class="right mt-3 rounded-l-lg glassmorph "> 
+    <form id="day-form" action="/user/<%= username %>/challenges/<%= challengeId %>/notes/<%= day %>" method="POST">
+      <label for="day-name" class="block mb-2">Title for your day:</label>
+      <input type="text" id="day-name" name="title" placeholder="Title for your day eg: The day I dealt with bugs!" class="text-slate-200 focus:outline-none bg-gray-500/50" />
+
+      <label for="note" class="block mb-2">Write your Note here:</label>
+      <textarea id="note" name="note" placeholder="Write your Note here..." class="text-slate-200 focus:outline-none bg-gray-500/50"></textarea>
+
+      <button type="submit" class=" bg-gradient-to-tl from-blue-600 to-violet-600 shadow-xl shadow-transparent hover:shadow-blue-700/50 transition-all duration-300 ease-in-out border border-transparent text-white text-sm text-center font-medium focus:outline-none focus:shadow-blue-700/50 p-3 border-none w-full rounded-full cursor-pointer ">Create Note</button>
+    </form> 
+
+    <a href="/challenges/<%= challengeId %>" class="rounded-full mt-5 p-2 border duration-300 transition-all ease-in-out border-blue-600 text-center hover:shadow-blue-700 shadow-md">Cancel</a>
   </div>
 </div>
