@@ -10,7 +10,7 @@ const noteSchema = new Schema({
     creationDate: {
         type: Date,
         required: true,
-        default: Date.now()
+        default: new Date().toISOString().split('T')[0]
     },
     title: {
         type: String,
