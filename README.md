@@ -61,8 +61,6 @@ To install and run Questrack locally, follow these steps:
    - Hit "Save" to store your note.
 4. **View Your Progress**: On the challenge overview page, you can see which days you've completed, which notes are missing, and get an overall sense of your journey.
 
-Check out the [Wiki](#) for more details on advanced usage.
-
 ## Contributing 🤝
 
 We welcome contributions! Please check out our [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to get involved and contribute to the project.
