@@ -5,12 +5,15 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "build:css": "npx tailwindcss -i ./Public/CSS/styles.css -o ./Public/CSS/output.css --minify",
+    "watch:css": "npx tailwindcss -i ./Public/CSS/styles.css -o ./Public/CSS/output.css --watch"
   },
   "author": "Abedela",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "autoprefixer": "^10.4.20",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "connect-flash": "^0.1.1",
@@ -21,9 +24,14 @@
     "express": "^4.21.0",
     "express-async-handler": "^1.2.0",
     "express-session": "^1.18.0",
+    "express-validator": "^7.2.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.6.3",
     "nodemon": "^3.1.6",
+    "postcss": "^8.4.47",
     "preline": "^2.5.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.13"
   }
 }
