@@ -3,7 +3,8 @@ import User from "../Models/user.js";
 import asyncHandler from "express-async-handler";
 import "dotenv/config";
 
-function getChallengeDay(startDate) {
+function getChallengeDay(startDate) { 
+
   const currentDate = new Date(new Date().toISOString().split('T')[0]); 
   const start = new Date(startDate); 
 
@@ -18,14 +19,15 @@ export const viewChallenge = asyncHandler(async (req, res, next) => {
   const user = await User.find({ username });
   await challenge.populate("journal")
 
-  const challengeDay = getChallengeDay(challenge.dateStarted)
+  const challengeDay = challenge.status !== 'active' ? challenge.journal[challenge.journal.length - 1].day : getChallengeDay(challenge.dateStarted)
 
-  // console.log(challenge.journal[0])
+  const isOwner = req.session.userId && challenge.owner.toString() === req.session.userId.toString();
 
   res.render("ChallengePages/challengeView", {
     challenge,
     username,
-    challengeDay
+    challengeDay,
+    isOwner
   });
 });
 
@@ -37,7 +39,7 @@ export const newChallenge = asyncHandler(async (req, res, next) => {
     status: "active"
   });
 
-  res.render("ChallengePages/newChallenge", { user, activeChallenge });
+  res.render("ChallengePages/newChallenge", { user, activeChallenge, footer: false });
 });
 
 export const createChallenge = asyncHandler(async (req, res, next) => {
@@ -73,5 +75,7 @@ export const giveUpChallenge = asyncHandler(async (req, res, next) => {
     { _id: req.params.challengeId, status: "active" },
     { status: "cancelled" }
   );
+
+
   res.redirect(`/user/${req.params.user}`);
 });

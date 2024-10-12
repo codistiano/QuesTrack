@@ -6,48 +6,47 @@ import Note from "../Models/note.js";
 
 const router = express.Router({ mergeparams: true });
 
-function getChallengeDay(startDate) {
-  const currentDate = new Date(new Date().toISOString().split('T')[0]); 
-  const start = new Date(startDate); 
-
-  const dayDifference = Math.floor((currentDate - start) / (1000 * 60 * 60 * 24));
-
-  return dayDifference + 1;
-}
 
 export const viewNote = asyncHandler(async (req, res, next) => {
-  const { noteId } = req.params;
-  const note = await Note.findById(noteId);
-  res.render("NotePages/viewNote", { title: "Title doc" });
+  const { username, challengeId, day } = req.params;
+  const note = await Note.findOne({ challenge: challengeId, day: day });
+
+  if (!note || note.length === 0) {
+    return res.render('error', {
+        message: `No notes found for Day ${day}.`,
+        footer: false
+    });
+  }
+
+  res.render("NotePages/viewNote", { title: `Day ${day}`, username, note, day });
 });
 
 export const newNote = asyncHandler(async (req, res, next) => {
-  const { username, challengeId } = req.params;
-  const challenge = await Challenge.findById(challengeId);
-  const currentDay = getChallengeDay(challenge.dateStarted)
+  const { username, challengeId, day } = req.params;
   res.render(
     "NotePages/newNote",
     {
       title: "New Note",
       username,
       challengeId,
-      currentDay,
+      day,
+      footer: false,
     } 
   );
 });
 
 export const createNote = asyncHandler(async (req, res, next) => {
-  const { username, challengeId } = req.params;
+  const { username, challengeId, day } = req.params;
   const { title, note } = req.body;
   const user = await User.findOne({ username: username });
-  const theChallenge = await Challenge.findById(challengeId);
 
   const newNote = new Note({
     author: user._id,
     challenge: challengeId,
     title: title,
     note: note,
-    day: getChallengeDay(theChallenge.dateStarted),
+    day: parseInt(day),
+    footer: false,
   });
 
   await newNote.save();
@@ -58,36 +57,33 @@ export const createNote = asyncHandler(async (req, res, next) => {
   );
 
   res.redirect(
-    `/user/${username}/challenges/${challengeId}/notes/${newNote._id}`
+    `/user/${username}/challenges/${challengeId}/notes/${day}`
   );
 });
 
 export const editNote = asyncHandler(async (req, res, next) => {
-  const { username, challengeId, noteId } = req.params;
-  const editedNote = await Note.findById(noteId);
+  const { username, challengeId, day } = req.params;
+  const editedNote = await Note.findOne({challenge: challengeId, day: day});
   res.render("NotePages/editNote", {
     title: "Edit Note",
     note: editedNote,
     username,
     challengeId,
-    noteId
+    day,
+    footer: false,
   });
 });
 
 export const updateNote = asyncHandler(async (req, res, next) => {
-  const { username, challengeId, noteId } = req.params;
+  const { username, challengeId, day } = req.params;
   const { title, note } = req.body;
 
-  await Note.findByIdAndUpdate(noteId, {
+  await Note.findOneAndUpdate({challenge: challengeId, day: day}, {
     title: title,
     note: note,
   });
-  
-  const theNote = await Note.findById(noteId)
-  
-  console.log(theNote, "Successfully Updated!")
 
-  res.redirect(`/user/${username}/challenges/${challengeId}/note/${noteId}`);
+  res.redirect(`/user/${username}/challenges/${challengeId}/notes/${day}`);
 });
 
 
