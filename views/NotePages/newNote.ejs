@@ -11,16 +11,21 @@
 
   <!-- Right side for form inputs -->
   <div class="right mt-3 rounded-l-lg glassmorph "> 
+    <% if (message) { %>
+      <p class="mt-2 text-center text-sm text-red-600">
+        <%= message %>
+      </p>
+      <% } %>
     <form id="day-form" action="/user/<%= username %>/challenges/<%= challengeId %>/notes/<%= day %>" method="POST">
       <label for="day-name" class="block mb-2">Title for your day:</label>
-      <input type="text" id="day-name" name="title" placeholder="Title for your day eg: The day I dealt with bugs!" class="text-slate-200 focus:outline-none bg-gray-500/50" />
+      <input type="text" id="day-name" name="title" placeholder="Title for your day eg: The day I dealt with bugs!" class="text-slate-200 focus:outline-none bg-gray-500/50" required/>
 
       <label for="note" class="block mb-2">Write your Note here:</label>
-      <textarea id="note" name="note" placeholder="Write your Note here..." class="text-slate-200 focus:outline-none bg-gray-500/50"></textarea>
+      <textarea id="note" name="note" placeholder="Write your Note here..." class="text-slate-200 focus:outline-none bg-gray-500/50" required></textarea>
 
       <button type="submit" class=" bg-gradient-to-tl from-blue-600 to-violet-600 shadow-xl shadow-transparent hover:shadow-blue-700/50 transition-all duration-300 ease-in-out border border-transparent text-white text-sm text-center font-medium focus:outline-none focus:shadow-blue-700/50 p-3 border-none w-full rounded-full cursor-pointer ">Create Note</button>
     </form> 
 
-    <a href="/challenges/<%= challengeId %>" class="rounded-full mt-5 p-2 border duration-300 transition-all ease-in-out border-blue-600 text-center hover:shadow-blue-700 shadow-md">Cancel</a>
+    <a href="/user/<%= username %>/challenges/<%= challengeId %>" class="rounded-full mt-5 p-2 border duration-300 transition-all ease-in-out border-blue-600 text-center hover:shadow-blue-700 shadow-md">Cancel</a>
   </div>
 </div>
