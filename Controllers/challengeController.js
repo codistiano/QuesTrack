@@ -76,6 +76,5 @@ export const giveUpChallenge = asyncHandler(async (req, res, next) => {
     { status: "cancelled" }
   );
 
-
-  res.redirect(`/user/${req.params.user}`);
+  res.redirect(`/user/${req.params.username}`);
 });
