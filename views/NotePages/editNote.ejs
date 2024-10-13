@@ -13,10 +13,10 @@
   <div class="right mt-3 rounded-l-lg glassmorph "> 
     <form id="day-form" action="/user/<%= username %>/challenges/<%= challengeId %>/notes/<%= day %>/edit" method="POST">
       <label for="day-name" class="block mb-2">Title for your day:</label>
-      <input type="text" id="day-name" name="title" placeholder="Title for your day eg: The day I dealt with bugs!" class="text-slate-200 focus:outline-none bg-gray-500/50" value="<%= note.title %>" />
+      <input type="text" id="day-name" name="title" placeholder="Title for your day eg: The day I dealt with bugs!" class="text-slate-200 focus:outline-none bg-gray-500/50" value="<%= note.title %>" required/>
 
       <label for="note" class="block mb-2">Write your Note here:</label>
-      <textarea id="note" name="note" placeholder="Write your Note here..." class="text-slate-200 focus:outline-none bg-gray-500/50" ><%= note.note %></textarea>
+      <textarea id="note" name="note" placeholder="Write your Note here..." class="text-slate-200 focus:outline-none bg-gray-500/50" required ><%= note.note %></textarea>
 
       <button type="submit" class=" bg-gradient-to-tl from-blue-600 to-violet-600 shadow-xl shadow-transparent hover:shadow-blue-700/50 transition-all duration-300 ease-in-out border border-transparent text-white text-sm text-center font-medium focus:outline-none focus:shadow-blue-700/50 p-3 border-none w-full rounded-full cursor-pointer ">Update Note</button>
     </form> 
