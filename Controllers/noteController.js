@@ -6,6 +6,17 @@ import Note from "../Models/note.js";
 
 const router = express.Router({ mergeparams: true });
 
+function getChallengeDay(startDate) {
+  const currentDate = new Date(new Date().toISOString().split("T")[0]);
+  const start = new Date(startDate);
+
+  const dayDifference = Math.floor(
+    (currentDate - start) / (1000 * 60 * 60 * 24)
+  );
+
+  return dayDifference + 1;
+}
+
 export const viewNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId, day } = req.params;
   const note = await Note.findOne({ challenge: challengeId, day: day });
@@ -22,21 +33,34 @@ export const viewNote = asyncHandler(async (req, res, next) => {
 
 export const newNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId, day } = req.params;
-  
-  const errorMessage = req.session.errorMessage;
-  delete req.session.errorMessage
+  const noteExists = await Note.findOne({ challenge: challengeId, day: day });
+  const challenge = await Challenge.findOne({_id: challengeId})
 
-  res.render(
-    "NotePages/newNote",
-    {
-      title: "New Note",
-      username,
-      challengeId,
-      day,
-      footer: false,
-      message: errorMessage,
-    } 
-  );
+  const currentDay = getChallengeDay(challenge.dateStarted)
+
+  if (noteExists) {
+    return res.render("error", {
+      message: "Can't create multiple notes in the same day",
+    });
+  }
+
+  if (day > currentDay) {
+    return res.render("error", {
+      message: "Can't create note for future day!",
+    });
+  }
+
+  const errorMessage = req.session.errorMessage;
+  delete req.session.errorMessage;
+
+  res.render("NotePages/newNote", {
+    title: "New Note",
+    username,
+    challengeId,
+    day,
+    footer: false,
+    message: errorMessage,
+  });
 });
 
 export const createNote = asyncHandler(async (req, res, next) => {
@@ -60,14 +84,12 @@ export const createNote = asyncHandler(async (req, res, next) => {
     { $push: { journal: newNote._id } }
   );
 
-  res.redirect(
-    `/user/${username}/challenges/${challengeId}/notes/${day}`
-  );
+  res.redirect(`/user/${username}/challenges/${challengeId}/notes/${day}`);
 });
 
 export const editNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId, day } = req.params;
-  const editedNote = await Note.findOne({challenge: challengeId, day: day});
+  const editedNote = await Note.findOne({ challenge: challengeId, day: day });
 
   const errorMessage = req.session.errorMessage;
   delete req.session.errorMessage;
@@ -94,7 +116,3 @@ export const updateNote = asyncHandler(async (req, res, next) => {
 
   res.redirect(`/user/${username}/challenges/${challengeId}/notes/${day}`);
 });
-
-
-
-
