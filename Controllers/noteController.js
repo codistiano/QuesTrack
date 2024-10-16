@@ -6,7 +6,6 @@ import Note from "../Models/note.js";
 
 const router = express.Router({ mergeparams: true });
 
-
 export const viewNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId, day } = req.params;
   const note = await Note.findOne({ challenge: challengeId, day: day });
@@ -23,6 +22,10 @@ export const viewNote = asyncHandler(async (req, res, next) => {
 
 export const newNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId, day } = req.params;
+  
+  const errorMessage = req.session.errorMessage;
+  delete req.session.errorMessage
+
   res.render(
     "NotePages/newNote",
     {
@@ -31,6 +34,7 @@ export const newNote = asyncHandler(async (req, res, next) => {
       challengeId,
       day,
       footer: false,
+      message: errorMessage,
     } 
   );
 });
@@ -64,6 +68,10 @@ export const createNote = asyncHandler(async (req, res, next) => {
 export const editNote = asyncHandler(async (req, res, next) => {
   const { username, challengeId, day } = req.params;
   const editedNote = await Note.findOne({challenge: challengeId, day: day});
+
+  const errorMessage = req.session.errorMessage;
+  delete req.session.errorMessage;
+  
   res.render("NotePages/editNote", {
     title: "Edit Note",
     note: editedNote,
@@ -71,6 +79,7 @@ export const editNote = asyncHandler(async (req, res, next) => {
     challengeId,
     day,
     footer: false,
+    message: errorMessage,
   });
 });
 
