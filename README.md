@@ -34,7 +34,8 @@ To install and run Questrack locally, follow these steps:
 
     ```bash
     PORT=3000
-    MONGODB_URI=your-mongodb-connection-string
+    DB_URL=your-mongodb-connection-string
+    SECRET=for-session-management
     ```
 
 5. Run the app:
