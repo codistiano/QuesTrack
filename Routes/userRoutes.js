@@ -7,6 +7,7 @@ import {
   logout,
   profilePage,
 } from "../Controllers/userController.js";
+import { validateLogin, validateSignup } from "../Middleware/validation.js";
 
 const router = express.Router({ mergeParams: true });
 
@@ -16,11 +17,11 @@ router.get("/", (req, res, next) => {
 
 router.get("/signup", signUpPage);
 
-router.post("/signup", signUp);
+router.post("/signup", validateSignup, signUp);
 
 router.get("/login", loginPage);
 
-router.post("/login", login);
+router.post("/login", validateLogin, login);
 
 router.get("/logout", logout);
 

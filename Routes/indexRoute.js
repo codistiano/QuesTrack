@@ -14,10 +14,10 @@ router.get(
   "/me",
   asyncHandler(async (req, res, next) => {
     const userId = req.session.userId;
-    if (!userId) {
+    const user = await User.findById(userId);
+    if (!userId || !user) {
       return res.redirect("/user/login");
     } else {
-      const user = await User.findById(userId);
       return res.redirect(`/user/${user.username}`);
     }
   })

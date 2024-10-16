@@ -3,12 +3,13 @@ import User from "../Models/user.js";
 import asyncHandler from "express-async-handler";
 import "dotenv/config";
 
-function getChallengeDay(startDate) { 
+function getChallengeDay(startDate) {
+  const currentDate = new Date(new Date().toISOString().split("T")[0]);
+  const start = new Date(startDate);
 
-  const currentDate = new Date(new Date().toISOString().split('T')[0]); 
-  const start = new Date(startDate); 
-
-  const dayDifference = Math.floor((currentDate - start) / (1000 * 60 * 60 * 24));
+  const dayDifference = Math.floor(
+    (currentDate - start) / (1000 * 60 * 60 * 24)
+  );
 
   return dayDifference + 1;
 }
@@ -16,18 +17,22 @@ function getChallengeDay(startDate) {
 export const viewChallenge = asyncHandler(async (req, res, next) => {
   const { username, challengeId } = req.params;
   const challenge = await Challenge.findOne({ _id: challengeId });
-  const user = await User.find({ username });
-  await challenge.populate("journal")
+  await challenge.populate("journal");
 
-  const challengeDay = challenge.status !== 'active' ? challenge.journal[challenge.journal.length - 1].day : getChallengeDay(challenge.dateStarted)
+  const challengeDay =
+    challenge.status !== "active"
+      ? challenge.journal[challenge.journal.length - 1].day
+      : getChallengeDay(challenge.dateStarted);
 
-  const isOwner = req.session.userId && challenge.owner.toString() === req.session.userId.toString();
+  const isOwner =
+    req.session.userId &&
+    challenge.owner.toString() === req.session.userId.toString();
 
   res.render("ChallengePages/challengeView", {
     challenge,
     username,
     challengeDay,
-    isOwner
+    isOwner,
   });
 });
 
@@ -36,15 +41,25 @@ export const newChallenge = asyncHandler(async (req, res, next) => {
 
   const activeChallenge = await Challenge.findOne({
     owner: req.session.userId,
-    status: "active"
+    status: "active",
   });
 
-  res.render("ChallengePages/newChallenge", { user, activeChallenge, footer: false });
+  const errorMessage = req.session.errorMessage;
+
+  delete req.session.errorMessage;
+  delete req.session.returnTo;
+
+  res.render("ChallengePages/newChallenge", {
+    user,
+    activeChallenge: activeChallenge || null,
+    footer: false,
+    message: errorMessage
+  });
 });
 
 export const createChallenge = asyncHandler(async (req, res, next) => {
   // Before creating check if there is any other active challenge going on to make it cancelled
-  const idUser = req.session.userId
+  const idUser = req.session.userId;
   await Challenge.findOneAndUpdate(
     { owner: req.session.userId, status: "active" },
     { $set: { status: "cancelled" } }

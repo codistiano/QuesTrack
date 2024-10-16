@@ -9,6 +9,7 @@ import {
   giveUpChallenge,
 } from "../Controllers/challengeController.js";
 import { profilePage } from "../Controllers/userController.js";
+import { validateChallenge } from "../Middleware/validation.js";
 
 const router = express.Router({ mergeParams: true });
 
@@ -16,9 +17,9 @@ router.get("/", profilePage);
 
 router.get("/new", loggedIn, authorize, newChallenge);
 
-router.get("/:challengeId", viewChallenge);
+router.post("/new", loggedIn, authorize, validateChallenge, createChallenge);
 
-router.post("/new", loggedIn, authorize, createChallenge);
+router.get("/:challengeId", viewChallenge);
 
 router.get("/:challengeId/giveup", loggedIn, authorize, giveUpChallenge);
 

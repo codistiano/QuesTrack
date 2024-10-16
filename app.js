@@ -59,6 +59,7 @@ app.use(
       collectionName: "sessions",
     }),
     cookie: {
+      secure: false,
       maxAge: 1000 * 60 * 60 * 24 * 2,
     },
   })
@@ -66,7 +67,7 @@ app.use(
 
 app.use((req, res, next) => {
   res.locals.user = req.flash("username");
-  // res.locals.challenge = req.flash("challengeId");
+  res.locals.message = req.flash("message")
   res.locals.currentUser = req.session.userId;
   res.locals.footer = true;
   res.locals.title = "QuesTrack";
@@ -84,7 +85,8 @@ app.use("/user/:username/challenges", challengeRoutes);
 app.use("/user/:username/challenges/:challengeId/notes", noteRoutes);
 
 app.use(function (err, req, res, next) {
-  console.error(`Page Error: ${err}`);
+  console.log(err)
+  console.error(`Error Type: ${err}`);
 });
 
 const port = 3000;

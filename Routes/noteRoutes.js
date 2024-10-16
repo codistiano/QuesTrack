@@ -9,6 +9,7 @@ import {
   viewNote,
 } from "../Controllers/noteController.js";
 import { authorize } from "../Middleware/authorize.js";
+import { validateCreateNote, validateEditNote } from '../Middleware/validation.js';
 const router = express.Router({ mergeParams: true });
 
 router.get("/", viewChallenge);
@@ -19,8 +20,8 @@ router.get("/:day/new", loggedIn, authorize, newNote);
 
 router.get("/:day/edit", loggedIn, authorize, editNote);
 
-router.post("/:day", loggedIn, authorize, createNote);
+router.post("/:day/new", loggedIn, authorize, validateCreateNote, createNote);
 
-router.post("/:day/edit", loggedIn, authorize, updateNote)
+router.post("/:day/edit", loggedIn, authorize, validateEditNote, updateNote)
 
 export default router;
