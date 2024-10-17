@@ -85,8 +85,9 @@ app.use("/user/:username/challenges", challengeRoutes);
 app.use("/user/:username/challenges/:challengeId/notes", noteRoutes);
 
 app.use(function (err, req, res, next) {
-  console.log(err)
+  console.log(err.stack)
   console.error(`Error Type: ${err}`);
+  res.send("Something broke")
 });
 
 const port = 3000;
