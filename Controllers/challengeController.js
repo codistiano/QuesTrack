@@ -14,15 +14,21 @@ function getChallengeDay(startDate) {
   return dayDifference + 1;
 }
 
+function calculateDateDifference(startDate, endDate){
+  const from = new Date(startDate);
+  const to = new Date(endDate);
+  return Math.floor(
+    (to - from) / (1000 * 60 * 60 * 24)
+  ) + 1;
+}
+
 export const viewChallenge = asyncHandler(async (req, res, next) => {
   const { username, challengeId } = req.params;
   const challenge = await Challenge.findOne({ _id: challengeId });
   await challenge.populate("journal");
-
-  const challengeDay =
-    challenge.status !== "active"
-      ? challenge.journal[challenge.journal.length - 1].day
-      : getChallengeDay(challenge.dateStarted);
+  const challengeDay = challenge.status !== "active"?
+                       calculateDateDifference(challenge.dateStarted, challenge.endDate):
+                       calculateDateDifference(challenge.dateStarted,new Date(new Date().toISOString().split("T")[0]));
 
   const isOwner =
     req.session.userId &&
@@ -88,8 +94,16 @@ export const createChallenge = asyncHandler(async (req, res, next) => {
 export const giveUpChallenge = asyncHandler(async (req, res, next) => {
   const challenge = await Challenge.findOneAndUpdate(
     { _id: req.params.challengeId, status: "active" },
-    { status: "cancelled" }
+    { status: "cancelled", endDate:new Date().toISOString().split("T")[0] }
   );
 
   res.redirect(`/user/${req.params.username}`);
 });
+
+export const activateChallenge = asyncHandler(async (req, res, next)=>{
+  const challenge = await Challenge.findOneAndUpdate(
+    {_id: req.params.challengeId, status: "cancelled"},
+    { status: "active"}
+  );
+  res.redirect(`/user/${req.params.username}`)
+})

@@ -37,7 +37,9 @@
     </div>
     <% if (isOwner) { %>
     <div class="mt-10">
-    <button class="text-lg shadow-lg bg-red-800 w-44 px-3 py-2 rounded-xl hover:shadow-red-600/40 duration-200"><a href="/user/<%= username %>/challenges/<%= challenge._id %>/giveup">Give Up</a></button>
+    <button class="text-lg shadow-lg <%= challenge.status=="active"?'bg-red-800':'bg-red-300'%> w-44 px-3 py-2 rounded-xl hover:shadow-red-600/40 duration-200">
+      <a href="/user/<%= username %>/challenges/<%= challenge._id %>/<%= challenge.status=="active"?'giveup':'reactivate'%>"><%= challenge.status==="active"?`Give Up`:`Reactivate` %></a>
+    </button>
   </div>
   <% } %>
 </div>
