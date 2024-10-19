@@ -27,7 +27,7 @@
     <div
       class="bg-gradient-to-br from-blue-500/30 via-transparent to-purple-600/40 bg-fixed min-h-screen"
         >
-      <%- include("../_Partials/navbar") %>
+      <%- include("../_Partials/navbar", {active: active}) %>
         <%- body %>
       </div>
       <% if ( footer ) { %>

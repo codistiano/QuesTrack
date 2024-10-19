@@ -3,7 +3,7 @@ import Challenge from "../Models/challenge.js";
 import asyncHandler from "express-async-handler";
 
 export const signUpPage = asyncHandler(async (req, res, next) => {
-  res.render("UserPages/signup", { footer: false, message: "" });
+  res.render("UserPages/signup", { footer: false, message: "", active: "Signup" });
 });
 
 export const signUp = asyncHandler(async (req, res, next) => {
@@ -13,7 +13,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
 
   if (userExists) {
     req.flash("message", "Username Exists!")
-    return res.render("UserPages/signup", { message: "Username Exists!" });
+    return res.render("UserPages/signup", { message: "Username Exists!", active: "Signup" });
   }
 
   const newUser = new User({ username, password });
@@ -24,7 +24,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
 });
 
 export const loginPage = asyncHandler(async (req, res, next) => {
-  res.render("UserPages/login", { footer: false, message: "" });
+  res.render("UserPages/login", { footer: false, message: "", active: "Login" });
 });
 
 export const login = asyncHandler(async (req, res, next) => {
@@ -36,7 +36,10 @@ export const login = asyncHandler(async (req, res, next) => {
     res.status(401); // unauthorized
     return res.render("UserPages/login", {
       message: "Incorrect Username or Password",
-    });
+      active: "Login"
+    },
+  );
+    
   }
 
   const isMatch = await user.comparePassword(password);
@@ -45,6 +48,7 @@ export const login = asyncHandler(async (req, res, next) => {
     res.status(401); // unauthorized
     return res.render("UserPages/login", {
       message: "Incorrect Username or Password",
+      active: "Login"
     });
   }
 
@@ -65,7 +69,7 @@ export const profilePage = asyncHandler(async (req, res, next) => {
   const currentUser = await User.findOne({ _id: req.session.userId });
 
   if (!user) {
-    return res.render("error", { message: "Username Not Found!" });
+    return res.render("error", { message: "Username Not Found!", active: "Profile" });
   }
 
   await user.populate("challenges");
@@ -81,5 +85,6 @@ export const profilePage = asyncHandler(async (req, res, next) => {
     challenges: user.challenges,
     activeChallenge,
     owner,
+    active: "Profile"
   });
 });

@@ -24,11 +24,12 @@ export const viewNote = asyncHandler(async (req, res, next) => {
   if (!note || note.length === 0) {
     return res.render('error', {
         message: `No notes found for Day ${day}.`,
-        footer: false
+        footer: false,
+        active:"Profile"
     });
   }
 
-  res.render("NotePages/viewNote", { title: `Day ${day}`, username, note, day });
+  res.render("NotePages/viewNote", { title: `Day ${day}`, username, note, day, active:"Profile" });
 });
 
 export const newNote = asyncHandler(async (req, res, next) => {
@@ -47,6 +48,7 @@ export const newNote = asyncHandler(async (req, res, next) => {
   if (day > currentDay) {
     return res.render("error", {
       message: "Can't create note for future day!",
+      active:"Profile"
     });
   }
 
@@ -60,6 +62,7 @@ export const newNote = asyncHandler(async (req, res, next) => {
     day,
     footer: false,
     message: errorMessage,
+    active:"Profile"
   });
 });
 
@@ -102,6 +105,7 @@ export const editNote = asyncHandler(async (req, res, next) => {
     day,
     footer: false,
     message: errorMessage,
+    active:"Profile"
   });
 });
 

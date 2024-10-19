@@ -1,26 +1,10 @@
 import Challenge from "../Models/challenge.js";
 import User from "../Models/user.js";
 import asyncHandler from "express-async-handler";
+import { calculateDateDifference } from "../util/util.js";
 import "dotenv/config";
 
-function getChallengeDay(startDate) {
-  const currentDate = new Date(new Date().toISOString().split("T")[0]);
-  const start = new Date(startDate);
 
-  const dayDifference = Math.floor(
-    (currentDate - start) / (1000 * 60 * 60 * 24)
-  );
-
-  return dayDifference + 1;
-}
-
-function calculateDateDifference(startDate, endDate){
-  const from = new Date(startDate);
-  const to = new Date(endDate);
-  return Math.floor(
-    (to - from) / (1000 * 60 * 60 * 24)
-  ) + 1;
-}
 
 export const viewChallenge = asyncHandler(async (req, res, next) => {
   const { username, challengeId } = req.params;
@@ -39,6 +23,7 @@ export const viewChallenge = asyncHandler(async (req, res, next) => {
     username,
     challengeDay,
     isOwner,
+    active:"Profile"
   });
 });
 
@@ -59,7 +44,8 @@ export const newChallenge = asyncHandler(async (req, res, next) => {
     user,
     activeChallenge: activeChallenge || null,
     footer: false,
-    message: errorMessage
+    message: errorMessage,
+    active:"Profile"
   });
 });
 
