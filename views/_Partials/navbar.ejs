@@ -17,7 +17,7 @@
         </a>
       </div>
       <!-- End Logo -->
-
+       
       <div class="md:hidden">
         <!-- Toggle Button -->
         <button
@@ -64,7 +64,7 @@
         <!-- End Toggle Button -->
       </div>
     </div>
-
+    
     <div
       id="hs-navbar-header-floating"
       class="hidden hs-collapse overflow-hidden transition-all duration-300 basis-full grow md:block"
@@ -74,34 +74,36 @@
         class="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 mt-3 md:mt-0 py-2 md:py-0 md:ps-7"
       >
         <a
-          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none dark:border-neutral-200 dark:text-neutral-200"
+          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none <%= active==="Home"?"dark:border-neutral-200 dark:text-neutral-200":"dark:text-neutral-400"%>  "
           href="/"
-          aria-current="page"
+          
+          
           >Home</a
         >
         <a
-          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
+        class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none <%= active==="Explore"?"dark:border-neutral-200 dark:text-neutral-200":"dark:text-neutral-400"%>  "
           href="/explore"
+          aria-current="page"
           >Explore</a
         >
         <a
-          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
+        class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none <%= active==="Article"?"dark:border-neutral-200 dark:text-neutral-200":"dark:text-neutral-400"%>  "
           href="/article"
           >Article</a
         >
         <% if (!currentUser) { %>
         <a
-          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
+        class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none <%= active==="Login"?"dark:border-neutral-200 dark:text-neutral-200":"dark:text-neutral-400"%>  "
           href="/user/login"
           >Login</a
         >
         <a
-          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
+        class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none <%= active==="Signup"?"dark:border-neutral-200 dark:text-neutral-200":"dark:text-neutral-400"%>  "
           href="/user/signup"
           >Sign Up</a
         > <% } else { %>
           <a
-          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-200"
+          class="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-none <%= active==="Profile"?"dark:border-neutral-200 dark:text-neutral-200":"dark:text-neutral-400"%>  "
           href="/me"
           >My Profile</a
         > <% } %>

@@ -6,7 +6,7 @@ const router = express.Router();
 router.get(
   "/",
   asyncHandler(async (req, res, next) => {
-    res.render("index", { title: "QuesTrack" });
+    res.render("index", { title: "QuesTrack", active: "Home" });
   })
 );
 
@@ -24,11 +24,11 @@ router.get(
 );
 
 router.get("/article", asyncHandler(async (req, res, next) => {
-  res.render("article")
+  res.render("article", {active: "Article"});
 }));
 
 router.get('/explore', (req, res) => {
-  res.render('explore', { title: 'Explore' });
+  res.render('explore', { title: 'Explore', active: "Explore" });
 });
 
 
