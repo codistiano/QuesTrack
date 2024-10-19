@@ -23,6 +23,7 @@ export const viewChallenge = asyncHandler(async (req, res, next) => {
     username,
     challengeDay,
     isOwner,
+    active:"Profile"
   });
 });
 
@@ -43,7 +44,8 @@ export const newChallenge = asyncHandler(async (req, res, next) => {
     user,
     activeChallenge: activeChallenge || null,
     footer: false,
-    message: errorMessage
+    message: errorMessage,
+    active:"Profile"
   });
 });
 
